@@ -35,7 +35,7 @@ Resources:
       CodeUri:
         Bucket: !Sub yotixify-deploy-bucket
         Key: !Sub ${Repo}/${Environment}-3.zip
-      Runtime: python3.8
+      Runtime: python3.9
       Timeout: 10
       Events:
         ProxyHealth:

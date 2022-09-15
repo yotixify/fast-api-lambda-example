@@ -9,7 +9,7 @@ def set_up():
     config = {
         "DOMAIN": os.getenv("DOMAIN", "dev-0a82v8g6.us.auth0.com"),
         "API_AUDIENCE": os.getenv("API_AUDIENCE", "fastapi-lambda-example"),
-        "ISSUER": os.getenv("ISSUER", "https://dev-0a82v8g6.us.auth0.com"),
+        "ISSUER": os.getenv("ISSUER", "https://dev-0a82v8g6.us.auth0.com/"),
         "ALGORITHMS": os.getenv("ALGORITHMS", "RS256"),
     }
     return config
