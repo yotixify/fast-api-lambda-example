@@ -48,7 +48,7 @@ jobs:
         uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
           name: fast-api-exmaple
-          template: template.cfn.yml
+          template: ./template.cfn.yml
           parameter-overrides: Environment=${{env.branch}},Repo=${{github.repository }}
           capabilities: CAPABILITY_AUTO_EXPAND, CAPABILITY_IAM
           
