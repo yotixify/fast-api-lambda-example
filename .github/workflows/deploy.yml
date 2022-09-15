@@ -49,6 +49,7 @@ jobs:
         with:
           name: fast-api-example
           template: ./template.cfn.yml
+          no-fail-on-empty-changeset: 1
           parameter-overrides: Environment=${{env.branch}},Repo=${{github.repository }}
           capabilities: CAPABILITY_AUTO_EXPAND, CAPABILITY_IAM
           
