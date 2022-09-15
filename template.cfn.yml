@@ -32,7 +32,7 @@ Resources:
     Properties:
       Policies: AmazonDynamoDBFullAccess
       Role: !GetAtt ProxyLambdaRole.Arn
-      Handler: app.handler
+      Handler: src.main.handler
       CodeUri:
         Bucket: !Sub yotixify-deploy-bucket
         Key: !Sub ${Repo}/${Environment}.zip
