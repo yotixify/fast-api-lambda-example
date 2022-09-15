@@ -1,0 +1,91 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: AWS Serverless Flask with {proxy+}
+
+Parameters:
+  Environment:
+    Type: String
+  Repo:
+    Type: String
+  HostName:
+    Type: String
+  HostedZoneName:
+    Type: String
+
+Metadata:
+  cfn-lint:
+    config:
+      ignore_checks: # https://github.com/aws-cloudformation/cfn-python-lint/blob/master/docs/rules.md
+        - W2001 # Check if Parameters are Used
+
+Resources:
+  ApiGateway:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name: !Sub ${Environment}-${Repo}
+      StageName: !Sub ${Environment}
+      EndpointConfiguration: EDGE
+#      Domain: 
+#        CertificateArn: "arn:aws:acm:us-east-1:246467987978:certificate/2617e6b8-2ec3-4c30-a447-59cd2cf9ba42"
+#        DomainName: !Sub ${HostName}
+#        Route53:
+#          HostedZoneName: !Sub ${HostedZoneName}.
+
+  fastApiOAuthLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      Policies: AmazonDynamoDBFullAccess
+      Role: !GetAtt ProxyLambdaRole.Arn
+      Handler: api.index.lambda_handler
+      CodeUri:
+        Bucket: !Sub yotixify-deploy-bucket
+        Key: !Sub ${Repo}/${Environment}.zip
+      Runtime: python3.8
+      Timeout: 10
+      Events:
+        ProxyHealth:
+          Type: Api
+          Properties:
+            Path: /
+            Method: any
+            RestApiId: !Ref ApiGateway
+        ProxyRest:
+          Type: Api
+          Properties:
+            Path: /{proxy+}
+            Method: any
+            RestApiId: !Ref ApiGateway
+  
+
+  ApiGatewayPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !Ref fastApiOAuthLambda
+      Action: "lambda:InvokeFunction"
+      Principal: apigateway.amazonaws.com
+
+  ProxyLambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action: sts:AssumeRole
+      Path: /
+      Policies:
+        - PolicyName: fast-api-lambda-example
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource:
+                  - arn:aws:logs:*:*:*
+
