@@ -42,7 +42,7 @@ jobs:
           chmod -R 755 .
           zip -r9 ${GITHUB_REF##*/}.zip * -x "*.pyc" -x "requirements.txt" -x "${GITHUB_REF##*/}.zip"
           echo ::set-env name=branch::${GITHUB_REF##*/}
-          aws s3 cp ${GITHUB_REF##*/}.zip s3://yotixify-deploy-bucket/${GITHUB_REPOSITORY}/${GITHUB_REF##*/}-5.zip
+          aws s3 cp ${GITHUB_REF##*/}.zip s3://yotixify-deploy-bucket/${GITHUB_REPOSITORY}/${GITHUB_REF##*/}-${GITHUB_SHA}.zip
         
       - name: Deploy w/ AWS Cloudformation
         uses: aws-actions/aws-cloudformation-github-deploy@v1
@@ -50,7 +50,7 @@ jobs:
           name: fast-api-example
           template: ./template.cfn.yml
           no-fail-on-empty-changeset: 1
-          parameter-overrides: Environment=${{env.branch}},Repo=${{github.repository }}
+          parameter-overrides: Environment=${{env.branch}},Repo=${{github.repository }},SHA=${{github.sha}}
           capabilities: CAPABILITY_AUTO_EXPAND, CAPABILITY_IAM
           
 
