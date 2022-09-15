@@ -2,3 +2,4 @@ fastapi
 mangum
 PyJWT
 cryptography==37.0.4
+cffi

@@ -42,7 +42,7 @@ jobs:
           chmod -R 755 .
           zip -r9 ${GITHUB_REF##*/}.zip * -x "*.pyc" -x "requirements.txt" -x "${GITHUB_REF##*/}.zip"
           echo ::set-env name=branch::${GITHUB_REF##*/}
-          aws s3 cp ${GITHUB_REF##*/}.zip s3://yotixify-deploy-bucket/${GITHUB_REPOSITORY}/${GITHUB_REF##*/}-5.zip
+          aws s3 cp ${GITHUB_REF##*/}.zip s3://yotixify-deploy-bucket/${GITHUB_REPOSITORY}/${GITHUB_REF##*/}-6.zip
         
       - name: Deploy w/ AWS Cloudformation
         uses: aws-actions/aws-cloudformation-github-deploy@v1
