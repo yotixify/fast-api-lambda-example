@@ -1,7 +1,7 @@
 from fastapi import Depends, FastAPI, Response, status  # 👈 new imports
 from fastapi.security import HTTPBearer
  
-from .utils import VerifyToken 
+from utils import VerifyToken 
 
 from mangum import Mangum
 
@@ -15,16 +15,15 @@ async def root():
 
 
 @app.get("/api/private")
-def private(response: Response, token: str = Depends(token_auth_scheme)):  # 👈 updated code
+def private(response: Response, token: str = Depends(token_auth_scheme)): 
     """A valid access token is required to access this route"""
  
-    result = VerifyToken(token.credentials).verify()  # 👈 updated code
+    result = VerifyToken(token.credentials).verify() 
 
-    # 👇 new code
     if result.get("status"):
        response.status_code = status.HTTP_400_BAD_REQUEST
        return result
-    # 👆 new code
+
  
     return result
 
