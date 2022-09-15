@@ -5,7 +5,7 @@ from utils import VerifyToken
 
 from mangum import Mangum
 
-app = FastAPI()
+app = FastAPI(root_path="/dev/")
 
 token_auth_scheme = HTTPBearer()
 
