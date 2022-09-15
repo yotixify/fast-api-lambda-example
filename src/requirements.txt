@@ -1,5 +1,3 @@
 fastapi
 mangum
 PyJWT
-cryptography
-manylinux2014
