@@ -30,7 +30,6 @@ Resources:
   fastApiOAuthLambda:
     Type: AWS::Serverless::Function
     Properties:
-      Policies: AmazonDynamoDBFullAccess
       Role: !GetAtt ProxyLambdaRole.Arn
       Handler: main.handler
       CodeUri:
