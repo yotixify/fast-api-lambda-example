@@ -7,10 +7,6 @@ Parameters:
     Type: String
   Repo:
     Type: String
-  HostName:
-    Type: String
-  HostedZoneName:
-    Type: String
 
 Metadata:
   cfn-lint:
