@@ -6,19 +6,12 @@ from configparser import ConfigParser
 def set_up():
     """Sets up configuration for the app"""
 
-    env = os.getenv("ENV", ".config")
-
-    if env == ".config":
-        config = ConfigParser()
-        config.read(".config")
-        config = config["AUTH0"]
-    else:
-        config = {
-            "DOMAIN": os.getenv("DOMAIN", "dev-0a82v8g6.us.auth0.com"),
-            "API_AUDIENCE": os.getenv("API_AUDIENCE", "fastapi-lambda-example"),
-            "ISSUER": os.getenv("ISSUER", "https://dev-0a82v8g6.us.auth0.com"),
-            "ALGORITHMS": os.getenv("ALGORITHMS", "RS256"),
-        }
+    config = {
+        "DOMAIN": os.getenv("DOMAIN", "dev-0a82v8g6.us.auth0.com"),
+        "API_AUDIENCE": os.getenv("API_AUDIENCE", "fastapi-lambda-example"),
+        "ISSUER": os.getenv("ISSUER", "https://dev-0a82v8g6.us.auth0.com"),
+        "ALGORITHMS": os.getenv("ALGORITHMS", "RS256"),
+    }
     return config
 
 class VerifyToken():
