@@ -34,7 +34,7 @@ Resources:
       Handler: main.handler
       CodeUri:
         Bucket: !Sub yotixify-deploy-bucket
-        Key: !Sub ${Repo}/${Environment}-6.zip
+        Key: !Sub ${Repo}/${Environment}-5.zip
       Runtime: python3.9
       Timeout: 10
       Events:
